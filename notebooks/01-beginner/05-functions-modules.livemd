@@ -1,0 +1,504 @@
+# Functions & Modules Practice
+
+```elixir
+Mix.install([])
+```
+
+## Introduction
+
+Master functions and modules - the building blocks of Elixir applications. Learn anonymous functions, named functions, pattern matching in functions, and module organization.
+
+## Part 1: Anonymous Functions
+
+### Basic Anonymous Functions
+
+```elixir
+# Exercise 1.1: Create and use anonymous functions
+add = fn a, b -> a + b end
+multiply = fn a, b -> a * b end
+
+IO.puts("5 + 3 = #{add.(5, 3)}")
+IO.puts("5 * 3 = #{multiply.(5, 3)}")
+
+# Note the dot notation: add.(5, 3)
+```
+
+```elixir
+# Exercise 1.2: Capture operator shorthand
+add_short = &(&1 + &2)
+multiply_short = &(&1 * &2)
+double = &(&1 * 2)
+
+IO.puts("Using capture: #{add_short.(5, 3)}")
+IO.puts("Double: #{double.(21)}")
+```
+
+```elixir
+# Exercise 1.3: Multi-clause anonymous functions
+handle_response = fn
+  {:ok, data} -> "Success: #{data}"
+  {:error, :timeout} -> "Request timed out"
+  {:error, :not_found} -> "Resource not found"
+  {:error, reason} -> "Error: #{reason}"
+end
+
+# Test it:
+IO.puts(handle_response.({:ok, "deployed"}))
+IO.puts(handle_response.({:error, :timeout}))
+IO.puts(handle_response.({:error, "connection refused"}))
+```
+
+```elixir
+# Exercise 1.4: Functions as arguments
+numbers = [1, 2, 3, 4, 5]
+
+# Pass functions to Enum
+doubled = Enum.map(numbers, &(&1 * 2))
+evens = Enum.filter(numbers, &(rem(&1, 2) == 0))
+
+IO.inspect(doubled, label: "Doubled")
+IO.inspect(evens, label: "Evens")
+
+# Custom function
+custom_transform = fn x -> x * 3 + 1 end
+transformed = Enum.map(numbers, custom_transform)
+IO.inspect(transformed, label: "Custom transform")
+```
+
+## Part 2: Named Functions in Modules
+
+### Basic Module Structure
+
+```elixir
+defmodule Calculator do
+  # Public functions
+  def add(a, b), do: a + b
+  def subtract(a, b), do: a - b
+
+  def multiply(a, b) do
+    a * b
+  end
+
+  def divide(a, 0), do: {:error, :division_by_zero}
+  def divide(a, b), do: {:ok, a / b}
+end
+
+# Test it:
+IO.puts("10 + 5 = #{Calculator.add(10, 5)}")
+IO.puts("10 - 5 = #{Calculator.subtract(10, 5)}")
+
+case Calculator.divide(10, 0) do
+  {:ok, result} -> IO.puts("Result: #{result}")
+  {:error, :division_by_zero} -> IO.puts("Cannot divide by zero!")
+end
+```
+
+### Pattern Matching in Functions
+
+```elixir
+defmodule ServerManager do
+  # Pattern match on different inputs
+  def start_server(%{name: name, port: port}) do
+    IO.puts("Starting #{name} on port #{port}")
+    {:ok, :started}
+  end
+
+  def stop_server(%{name: name, pid: pid}) when is_pid(pid) do
+    IO.puts("Stopping #{name} (PID: #{inspect(pid)})")
+    {:ok, :stopped}
+  end
+
+  def check_status(:running), do: "Server is running"
+  def check_status(:stopped), do: "Server is stopped"
+  def check_status(:degraded), do: "Server is degraded"
+  def check_status(_), do: "Unknown status"
+end
+
+# Test it:
+ServerManager.start_server(%{name: "api", port: 8080})
+ServerManager.stop_server(%{name: "api", pid: self()})
+IO.puts(ServerManager.check_status(:running))
+```
+
+### Guards in Functions
+
+```elixir
+defmodule PortValidator do
+  def validate(port) when port < 1 do
+    {:error, "Port must be positive"}
+  end
+
+  def validate(port) when port > 65535 do
+    {:error, "Port must be <= 65535"}
+  end
+
+  def validate(port) when port < 1024 do
+    {:warning, "Port #{port} is privileged"}
+  end
+
+  def validate(port) when is_integer(port) do
+    {:ok, port}
+  end
+
+  def validate(_) do
+    {:error, "Port must be an integer"}
+  end
+end
+
+# Test it:
+test_ports = [0, 80, 8080, 70000, "8080", 8080.5]
+
+Enum.each(test_ports, fn port ->
+  result = PortValidator.validate(port)
+  IO.puts("#{inspect(port)} -> #{inspect(result)}")
+end)
+```
+
+### Default Arguments
+
+```elixir
+defmodule HTTPClient do
+  def get(url, timeout \\ 5000, retries \\ 3) do
+    IO.puts("GET #{url} (timeout: #{timeout}ms, retries: #{retries})")
+    {:ok, "response"}
+  end
+
+  def post(url, body, headers \\ [], timeout \\ 5000) do
+    IO.puts("POST #{url}")
+    IO.puts("Body: #{body}")
+    IO.puts("Headers: #{inspect(headers)}")
+    IO.puts("Timeout: #{timeout}ms")
+    {:ok, "response"}
+  end
+end
+
+# Test with different argument combinations:
+HTTPClient.get("https://api.example.com")
+HTTPClient.get("https://api.example.com", 10_000)
+HTTPClient.get("https://api.example.com", 10_000, 5)
+
+HTTPClient.post("https://api.example.com", "data")
+HTTPClient.post("https://api.example.com", "data", [{"Content-Type", "application/json"}])
+```
+
+## Part 3: Private Functions
+
+```elixir
+defmodule DeploymentManager do
+  # Public API
+  def deploy(service, version) do
+    with :ok <- validate_version(version),
+         :ok <- check_permissions(),
+         {:ok, _} <- perform_deployment(service, version) do
+      notify_success(service, version)
+      {:ok, :deployed}
+    else
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  # Private helper functions
+  defp validate_version(version) do
+    if String.match?(version, ~r/^\d+\.\d+\.\d+$/), do: :ok, else: {:error, :invalid_version}
+  end
+
+  defp check_permissions do
+    # Simulate permission check
+    :ok
+  end
+
+  defp perform_deployment(service, version) do
+    IO.puts("Deploying #{service} v#{version}...")
+    {:ok, :done}
+  end
+
+  defp notify_success(service, version) do
+    IO.puts("✓ Successfully deployed #{service} v#{version}")
+  end
+end
+
+# Can only call public function:
+DeploymentManager.deploy("api", "1.2.3")
+
+# This would fail:
+# DeploymentManager.validate_version("1.0.0")  # ** (UndefinedFunctionError)
+```
+
+## Part 4: Pipe Operator with Functions
+
+```elixir
+defmodule LogProcessor do
+  def parse(line) do
+    String.split(line, " ", parts: 3)
+  end
+
+  def extract_level([_timestamp, level, _message]) do
+    String.trim(level, ":")
+  end
+
+  def extract_message([_timestamp, _level, message]) do
+    message
+  end
+
+  def classify_severity("ERROR"), do: :critical
+  def classify_severity("WARN"), do: :warning
+  def classify_severity("INFO"), do: :info
+  def classify_severity(_), do: :unknown
+end
+
+# Process a log line with pipe operator:
+log_line = "2024-11-01 ERROR: Database connection failed"
+
+severity =
+  log_line
+  |> LogProcessor.parse()
+  |> LogProcessor.extract_level()
+  |> LogProcessor.classify_severity()
+
+IO.puts("Severity: #{severity}")
+
+message =
+  log_line
+  |> LogProcessor.parse()
+  |> LogProcessor.extract_message()
+
+IO.puts("Message: #{message}")
+```
+
+## Challenge Exercises
+
+### Challenge 1: Service Health Checker
+
+```elixir
+defmodule HealthChecker do
+  def check(url, max_retries \\ 3)
+
+  def check(_url, 0) do
+    {:error, :max_retries_exceeded}
+  end
+
+  def check(url, retries) do
+    # Simulate health check
+    case :rand.uniform(3) do
+      1 ->
+        {:ok, :healthy}
+
+      2 ->
+        {:error, :degraded}
+
+      3 ->
+        IO.puts("Retry #{4 - retries}...")
+        Process.sleep(100)
+        check(url, retries - 1)
+    end
+  end
+
+  def check_multiple(urls) do
+    Enum.map(urls, fn url ->
+      {url, check(url)}
+    end)
+  end
+end
+
+# Test it:
+result = HealthChecker.check("http://api.example.com")
+IO.inspect(result, label: "Single check")
+
+results = HealthChecker.check_multiple(["http://api1.com", "http://api2.com"])
+IO.inspect(results, label: "Multiple checks")
+```
+
+### Challenge 2: Configuration Builder
+
+```elixir
+defmodule ConfigBuilder do
+  defstruct database: %{}, cache: %{}, api: %{}
+
+  def new do
+    %__MODULE__{}
+  end
+
+  def with_database(config, opts \\ []) do
+    db_config = %{
+      host: Keyword.get(opts, :host, "localhost"),
+      port: Keyword.get(opts, :port, 5432),
+      pool_size: Keyword.get(opts, :pool_size, 10)
+    }
+
+    %{config | database: db_config}
+  end
+
+  def with_cache(config, opts \\ []) do
+    cache_config = %{
+      host: Keyword.get(opts, :host, "localhost"),
+      port: Keyword.get(opts, :port, 6379)
+    }
+
+    %{config | cache: cache_config}
+  end
+
+  def with_api(config, opts \\ []) do
+    api_config = %{
+      port: Keyword.get(opts, :port, 4000),
+      timeout: Keyword.get(opts, :timeout, 5000)
+    }
+
+    %{config | api: api_config}
+  end
+
+  def build(config) do
+    IO.puts("Building configuration...")
+    IO.inspect(config, label: "Final config")
+    {:ok, config}
+  end
+end
+
+# Use it with pipe operator:
+{:ok, config} =
+  ConfigBuilder.new()
+  |> ConfigBuilder.with_database(host: "db.example.com", pool_size: 20)
+  |> ConfigBuilder.with_cache(port: 6380)
+  |> ConfigBuilder.with_api(port: 8080, timeout: 10_000)
+  |> ConfigBuilder.build()
+```
+
+### Challenge 3: Deployment State Machine
+
+```elixir
+defmodule DeploymentStateMachine do
+  def transition(:pending, :start), do: {:ok, :building}
+  def transition(:building, :build_complete), do: {:ok, :testing}
+  def transition(:testing, :tests_pass), do: {:ok, :deploying}
+  def transition(:deploying, :deploy_complete), do: {:ok, :verifying}
+  def transition(:verifying, :health_check_pass), do: {:ok, :complete}
+
+  def transition(:building, :build_fail), do: {:ok, :failed}
+  def transition(:testing, :tests_fail), do: {:ok, :failed}
+  def transition(:deploying, :deploy_fail), do: {:ok, :rollback}
+  def transition(:verifying, :health_check_fail), do: {:ok, :rollback}
+
+  def transition(state, _event), do: {:error, "Invalid transition from #{state}"}
+
+  def execute_workflow(events, initial_state \\ :pending) do
+    Enum.reduce_while(events, initial_state, fn event, state ->
+      case transition(state, event) do
+        {:ok, new_state} ->
+          IO.puts("#{state} --#{event}--> #{new_state}")
+          {:cont, new_state}
+
+        {:error, reason} ->
+          IO.puts("Error: #{reason}")
+          {:halt, state}
+      end
+    end)
+  end
+end
+
+# Test successful deployment:
+success_events = [:start, :build_complete, :tests_pass, :deploy_complete, :health_check_pass]
+final_state = DeploymentStateMachine.execute_workflow(success_events)
+IO.puts("\nFinal state: #{final_state}\n")
+
+# Test failed deployment:
+failure_events = [:start, :build_complete, :tests_fail]
+failed_state = DeploymentStateMachine.execute_workflow(failure_events)
+IO.puts("\nFinal state: #{failed_state}")
+```
+
+## Practice Problems
+
+### Problem 1: Retry with Exponential Backoff
+
+```elixir
+defmodule RetryHelper do
+  def with_backoff(fun, max_attempts \\ 3, initial_delay \\ 100) do
+    do_retry(fun, 1, max_attempts, initial_delay)
+  end
+
+  defp do_retry(fun, attempt, max_attempts, _delay) when attempt > max_attempts do
+    {:error, :max_retries_exceeded}
+  end
+
+  defp do_retry(fun, attempt, max_attempts, delay) do
+    case fun.() do
+      {:ok, result} ->
+        {:ok, result}
+
+      {:error, _reason} when attempt < max_attempts ->
+        IO.puts("Attempt #{attempt} failed, retrying in #{delay}ms...")
+        Process.sleep(delay)
+        do_retry(fun, attempt + 1, max_attempts, delay * 2)
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+end
+
+# Test with simulated flaky function:
+flaky_operation = fn ->
+  if :rand.uniform(2) == 1 do
+    {:ok, "success"}
+  else
+    {:error, :temporary_failure}
+  end
+end
+
+result = RetryHelper.with_backoff(flaky_operation, 5, 50)
+IO.inspect(result, label: "Retry result")
+```
+
+### Problem 2: Function Composition
+
+```elixir
+defmodule FunctionComposer do
+  def compose(f, g) do
+    fn x -> f.(g.(x)) end
+  end
+
+  def pipe_functions(value, functions) do
+    Enum.reduce(functions, value, fn fun, acc ->
+      fun.(acc)
+    end)
+  end
+end
+
+# Test composition:
+double = &(&1 * 2)
+add_ten = &(&1 + 10)
+
+composed = FunctionComposer.compose(double, add_ten)
+result = composed.(5)
+IO.puts("(5 + 10) * 2 = #{result}")
+
+# Test piping:
+functions = [
+  &(&1 * 2),
+  &(&1 + 10),
+  &(&1 / 2)
+]
+
+piped_result = FunctionComposer.pipe_functions(5, functions)
+IO.puts("Piped: #{piped_result}")
+```
+
+## Key Takeaways
+
+✓ **Anonymous functions**: Use `fn` or `&()` syntax
+✓ **Named functions**: Define in modules with `def`
+✓ **Pattern matching**: Multiple function clauses
+✓ **Guards**: Add conditions with `when`
+✓ **Private functions**: Use `defp` for internal use
+✓ **Pipe operator**: Chain function calls elegantly
+✓ **Default arguments**: Provide sensible defaults
+✓ **Recursion**: The Elixir way to loop
+
+## Next Steps
+
+1. Build a complete module for a real problem
+2. Practice function composition
+3. Master recursion patterns
+4. Learn about higher-order functions
+
+Excellent work! You're ready to build real applications! 🚀
+

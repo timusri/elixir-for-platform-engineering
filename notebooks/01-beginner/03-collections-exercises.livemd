@@ -1,0 +1,494 @@
+# Collections & Data Structures
+
+```elixir
+Mix.install([])
+```
+
+## Introduction
+
+Master Elixir's data structures through hands-on exercises. Learn lists, tuples, maps, and how to manipulate them efficiently.
+
+## Part 1: Lists
+
+### Basic List Operations
+
+```elixir
+# Exercise 1.1: Create and manipulate lists
+servers = ["web-1", "web-2", "web-3"]
+
+# TODO: Add a new server at the front (prepend)
+servers = ["web-0" | servers]
+IO.inspect(servers, label: "After prepend")
+
+# TODO: Add servers at the end (append)
+servers = servers ++ ["web-4", "web-5"]
+IO.inspect(servers, label: "After append")
+
+# TODO: Remove "web-2" from the list
+servers = servers -- ["web-2"]
+IO.inspect(servers, label: "After removal")
+```
+
+```elixir
+# Exercise 1.2: List head and tail
+numbers = [1, 2, 3, 4, 5]
+
+# TODO: Get first element and rest
+[head | tail] = numbers
+IO.puts("Head: #{head}")
+IO.inspect(tail, label: "Tail")
+
+# TODO: Get first two elements
+[first, second | rest] = numbers
+IO.puts("First: #{first}, Second: #{second}")
+IO.inspect(rest, label: "Rest")
+```
+
+```elixir
+# Exercise 1.3: Check membership
+ports = [80, 443, 8080, 8443, 3000]
+
+# TODO: Check if port 8080 is in the list
+has_8080 = 8080 in ports
+IO.puts("Has 8080: #{has_8080}")
+
+# TODO: Check if port 9000 is in the list
+has_9000 = 9000 in ports
+IO.puts("Has 9000: #{has_9000}")
+```
+
+## Part 2: Tuples
+
+```elixir
+# Exercise 2.1: Working with tuples
+response = {:ok, 200, "Success", %{data: "some data"}}
+
+# TODO: Get the status code (2nd element)
+status_code = elem(response, 1)
+IO.puts("Status code: #{status_code}")
+
+# TODO: Get tuple size
+size = tuple_size(response)
+IO.puts("Tuple size: #{size}")
+
+# TODO: Update the status code to 201
+response = put_elem(response, 1, 201)
+IO.inspect(response, label: "Updated response")
+```
+
+```elixir
+# Exercise 2.2: Common tuple patterns
+defmodule ResponseHandler do
+  # TODO: Handle different response tuples
+  def handle({:ok, data}), do: "Success: #{data}"
+  def handle({:error, reason}), do: "Error: #{reason}"
+  def handle({:ok, status, data}), do: "Success #{status}: #{data}"
+  def handle(_), do: "Unknown response"
+end
+
+# Test it:
+ResponseHandler.handle({:ok, "deployed"}) |> IO.puts()
+ResponseHandler.handle({:error, "timeout"}) |> IO.puts()
+ResponseHandler.handle({:ok, 200, "OK"}) |> IO.puts()
+```
+
+## Part 3: Maps
+
+```elixir
+# Exercise 3.1: Creating and accessing maps
+server = %{
+  name: "web-1",
+  ip: "10.0.0.1",
+  port: 8080,
+  status: :running
+}
+
+# TODO: Access values using different methods
+name1 = server[:name]
+name2 = server.name
+IO.puts("Name (bracket): #{name1}, Name (dot): #{name2}")
+
+# TODO: Get value with default
+memory = Map.get(server, :memory, "Unknown")
+IO.puts("Memory: #{memory}")
+```
+
+```elixir
+# Exercise 3.2: Updating maps
+server = %{name: "web-1", port: 8080, status: :running}
+
+# TODO: Update existing key
+server = %{server | status: :stopped}
+IO.inspect(server, label: "After status update")
+
+# TODO: Add new key (must use Map.put)
+server = Map.put(server, :memory_mb, 512)
+IO.inspect(server, label: "After adding memory")
+
+# TODO: Update with function
+server =
+  Map.update(server, :port, 8080, fn current_port ->
+    current_port + 1
+  end)
+
+IO.inspect(server, label: "After port increment")
+```
+
+```elixir
+# Exercise 3.3: Merging maps
+default_config = %{
+  timeout: 5000,
+  retries: 3,
+  pool_size: 10
+}
+
+user_config = %{
+  timeout: 10_000,
+  pool_size: 20
+}
+
+# TODO: Merge configs (user_config overwrites defaults)
+final_config = Map.merge(default_config, user_config)
+IO.inspect(final_config, label: "Merged config")
+```
+
+```elixir
+# Exercise 3.4: Map operations
+services = %{
+  "api" => :healthy,
+  "web" => :degraded,
+  "db" => :healthy,
+  "cache" => :healthy
+}
+
+# TODO: Get all keys
+keys = Map.keys(services)
+IO.inspect(keys, label: "Services")
+
+# TODO: Get all values
+values = Map.values(services)
+IO.inspect(values, label: "Statuses")
+
+# TODO: Filter map to only healthy services
+healthy_services =
+  services
+  |> Enum.filter(fn {_service, status} -> status == :healthy end)
+  |> Map.new()
+
+IO.inspect(healthy_services, label: "Healthy services")
+```
+
+## Part 4: Keyword Lists
+
+```elixir
+# Exercise 4.1: Keyword list basics
+options = [host: "localhost", port: 5432, timeout: 5000, pool_size: 10]
+
+# TODO: Access value
+port = options[:port]
+IO.puts("Port: #{port}")
+
+# TODO: Get value with default
+username = Keyword.get(options, :username, "postgres")
+IO.puts("Username: #{username}")
+
+# TODO: Add new value
+options = Keyword.put(options, :password, "secret")
+IO.inspect(options, label: "With password")
+```
+
+```elixir
+# Exercise 4.2: Keyword lists allow duplicates
+config = [debug: true, debug: false, timeout: 5000]
+
+# TODO: Get first value
+first_debug = Keyword.get(config, :debug)
+IO.puts("First debug: #{first_debug}")
+
+# TODO: Get all values for a key
+all_debug = Keyword.get_values(config, :debug)
+IO.inspect(all_debug, label: "All debug values")
+```
+
+## Part 5: Nested Data Structures
+
+```elixir
+# Exercise 5.1: Working with nested maps
+cluster = %{
+  name: "prod-cluster",
+  region: "us-east-1",
+  nodes: [
+    %{id: "node-1", ip: "10.0.0.1", status: :healthy},
+    %{id: "node-2", ip: "10.0.0.2", status: :healthy},
+    %{id: "node-3", ip: "10.0.0.3", status: :degraded}
+  ]
+}
+
+# TODO: Get the IP of the first node
+first_node_ip = cluster.nodes |> List.first() |> Map.get(:ip)
+IO.puts("First node IP: #{first_node_ip}")
+
+# TODO: Count healthy nodes
+healthy_count =
+  cluster.nodes
+  |> Enum.count(fn node -> node.status == :healthy end)
+
+IO.puts("Healthy nodes: #{healthy_count}")
+
+# TODO: Get all node IPs
+node_ips =
+  cluster.nodes
+  |> Enum.map(& &1.ip)
+
+IO.inspect(node_ips, label: "Node IPs")
+```
+
+```elixir
+# Exercise 5.2: Update nested structures
+deployment = %{
+  service: "api",
+  version: "1.0.0",
+  config: %{
+    replicas: 3,
+    resources: %{
+      cpu: "500m",
+      memory: "256Mi"
+    }
+  }
+}
+
+# TODO: Update memory using put_in
+deployment = put_in(deployment, [:config, :resources, :memory], "512Mi")
+IO.inspect(deployment.config.resources.memory, label: "Updated memory")
+
+# TODO: Update replicas using update_in
+deployment =
+  update_in(deployment, [:config, :replicas], fn replicas ->
+    replicas + 2
+  end)
+
+IO.inspect(deployment.config.replicas, label: "Updated replicas")
+```
+
+## Challenge Exercises
+
+### Challenge 1: Server Inventory
+
+```elixir
+defmodule ServerInventory do
+  # Create a module to manage server inventory
+
+  def new do
+    %{servers: []}
+  end
+
+  def add_server(inventory, server) do
+    %{inventory | servers: [server | inventory.servers]}
+  end
+
+  def list_servers(inventory) do
+    inventory.servers
+  end
+
+  def find_by_name(inventory, name) do
+    Enum.find(inventory.servers, fn server -> server.name == name end)
+  end
+
+  def count_by_status(inventory, status) do
+    Enum.count(inventory.servers, fn server -> server.status == status end)
+  end
+
+  def total_memory(inventory) do
+    Enum.reduce(inventory.servers, 0, fn server, acc ->
+      acc + Map.get(server, :memory_mb, 0)
+    end)
+  end
+end
+
+# Test it:
+inventory = ServerInventory.new()
+
+inventory =
+  inventory
+  |> ServerInventory.add_server(%{name: "web-1", status: :healthy, memory_mb: 512})
+  |> ServerInventory.add_server(%{name: "web-2", status: :healthy, memory_mb: 512})
+  |> ServerInventory.add_server(%{name: "db-1", status: :degraded, memory_mb: 2048})
+
+IO.inspect(ServerInventory.list_servers(inventory), label: "All servers")
+IO.puts("Healthy servers: #{ServerInventory.count_by_status(inventory, :healthy)}")
+IO.puts("Total memory: #{ServerInventory.total_memory(inventory)}MB")
+```
+
+### Challenge 2: Configuration Manager
+
+```elixir
+defmodule ConfigManager do
+  # Manage application configuration with defaults
+
+  def load(overrides \\ %{}) do
+    defaults()
+    |> deep_merge(overrides)
+  end
+
+  defp defaults do
+    %{
+      database: %{
+        host: "localhost",
+        port: 5432,
+        pool_size: 10
+      },
+      cache: %{
+        host: "localhost",
+        port: 6379,
+        ttl: 3600
+      },
+      api: %{
+        timeout: 5000,
+        retries: 3
+      }
+    }
+  end
+
+  defp deep_merge(left, right) do
+    Map.merge(left, right, fn _key, left_val, right_val ->
+      case {left_val, right_val} do
+        {%{} = l, %{} = r} -> deep_merge(l, r)
+        {_, r} -> r
+      end
+    end)
+  end
+end
+
+# Test it:
+config =
+  ConfigManager.load(%{
+    database: %{pool_size: 20},
+    api: %{timeout: 10_000}
+  })
+
+IO.inspect(config, label: "Final config")
+```
+
+### Challenge 3: Log Aggregator
+
+```elixir
+defmodule LogAggregator do
+  # Aggregate logs by level and service
+
+  def aggregate(logs) do
+    logs
+    |> Enum.group_by(& &1.level)
+    |> Map.new(fn {level, level_logs} ->
+      by_service =
+        level_logs
+        |> Enum.group_by(& &1.service)
+        |> Map.new(fn {service, service_logs} ->
+          {service, length(service_logs)}
+        end)
+
+      {level, by_service}
+    end)
+  end
+
+  def top_errors(logs, n \\ 5) do
+    logs
+    |> Enum.filter(&(&1.level == :error))
+    |> Enum.group_by(& &1.service)
+    |> Enum.map(fn {service, errors} -> {service, length(errors)} end)
+    |> Enum.sort_by(fn {_service, count} -> count end, :desc)
+    |> Enum.take(n)
+  end
+end
+
+# Test data:
+logs = [
+  %{level: :info, service: "api", message: "Request processed"},
+  %{level: :error, service: "api", message: "Connection failed"},
+  %{level: :error, service: "api", message: "Timeout"},
+  %{level: :warn, service: "db", message: "Slow query"},
+  %{level: :error, service: "db", message: "Connection lost"},
+  %{level: :info, service: "web", message: "Page served"}
+]
+
+aggregated = LogAggregator.aggregate(logs)
+IO.inspect(aggregated, label: "Aggregated logs")
+
+top_errors = LogAggregator.top_errors(logs, 2)
+IO.inspect(top_errors, label: "Top error services")
+```
+
+## Practice Problems
+
+Solve these on your own:
+
+### Problem 1: Deployment Tracker
+
+```elixir
+defmodule DeploymentTracker do
+  # Track deployments with history
+  # Each deployment: %{service: ..., version: ..., timestamp: ..., status: ...}
+
+  def new, do: %{deployments: []}
+
+  def add_deployment(tracker, deployment) do
+    deployment = Map.put(deployment, :timestamp, DateTime.utc_now())
+    %{tracker | deployments: [deployment | tracker.deployments]}
+  end
+
+  def latest_for_service(tracker, service) do
+    tracker.deployments
+    |> Enum.filter(&(&1.service == service))
+    |> Enum.sort_by(& &1.timestamp, {:desc, DateTime})
+    |> List.first()
+  end
+
+  def success_rate(tracker, service) do
+    service_deployments =
+      tracker.deployments
+      |> Enum.filter(&(&1.service == service))
+
+    total = length(service_deployments)
+    successful = Enum.count(service_deployments, &(&1.status == :success))
+
+    if total > 0 do
+      Float.round(successful / total * 100, 2)
+    else
+      0.0
+    end
+  end
+end
+
+# Test it:
+tracker = DeploymentTracker.new()
+
+tracker =
+  tracker
+  |> DeploymentTracker.add_deployment(%{service: "api", version: "1.0", status: :success})
+  |> DeploymentTracker.add_deployment(%{service: "api", version: "1.1", status: :failed})
+  |> DeploymentTracker.add_deployment(%{service: "api", version: "1.2", status: :success})
+
+latest = DeploymentTracker.latest_for_service(tracker, "api")
+IO.inspect(latest, label: "Latest API deployment")
+
+rate = DeploymentTracker.success_rate(tracker, "api")
+IO.puts("API success rate: #{rate}%")
+```
+
+## Key Takeaways
+
+✓ **Lists**: Fast prepend, sequential access
+✓ **Tuples**: Fixed size, fast random access
+✓ **Maps**: Key-value, fast lookup
+✓ **Keyword Lists**: Options, allow duplicates
+✓ **Nested structures**: Use `get_in`, `put_in`, `update_in`
+
+## Next Steps
+
+Continue with:
+
+1. [Enum Module Deep Dive](04-enum-exercises.livemd)
+2. [Functions & Modules Practice](03-functions-modules.livemd)
+3. Real-world data structure challenges
+
+Excellent work! 🚀
+

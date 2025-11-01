@@ -1,0 +1,425 @@
+# Pattern Matching Deep Dive
+
+```elixir
+Mix.install([])
+```
+
+## Introduction
+
+Pattern matching is Elixir's superpower! This notebook provides hands-on exercises to master this fundamental concept.
+
+## Exercise 1: Basic Pattern Matching
+
+Match the following values and extract the data:
+
+```elixir
+# Exercise 1.1: Match a tuple
+response = {:ok, 200, "Success"}
+
+# TODO: Extract status_code and message
+# Your code here:
+{:ok, status_code, message} = response
+
+IO.puts("Status: #{status_code}, Message: #{message}")
+```
+
+```elixir
+# Exercise 1.2: Match a list head and tail
+servers = ["web-1", "web-2", "web-3", "web-4"]
+
+# TODO: Extract first server and rest
+[first | rest] = servers
+
+IO.inspect(first, label: "First server")
+IO.inspect(rest, label: "Remaining servers")
+```
+
+```elixir
+# Exercise 1.3: Match specific list elements
+deployment = ["prod", "v2.1.0", 3, :success]
+
+# TODO: Extract environment, version, replicas, and status
+[env, version, replicas, status] = deployment
+
+IO.puts("Deploying #{version} to #{env} with #{replicas} replicas - Status: #{status}")
+```
+
+## Exercise 2: Map Pattern Matching
+
+```elixir
+# Exercise 2.1: Extract specific fields from a map
+server = %{
+  name: "api-server",
+  ip: "10.0.0.1",
+  port: 8080,
+  status: :running,
+  memory_mb: 512
+}
+
+# TODO: Extract name and status only
+%{name: server_name, status: server_status} = server
+
+IO.puts("#{server_name} is #{server_status}")
+```
+
+```elixir
+# Exercise 2.2: Match nested maps
+deployment_info = %{
+  service: "api",
+  config: %{
+    replicas: 3,
+    resources: %{
+      cpu: "500m",
+      memory: "256Mi"
+    }
+  }
+}
+
+# TODO: Extract the memory value from nested structure
+%{config: %{resources: %{memory: memory}}} = deployment_info
+
+IO.puts("Memory requirement: #{memory}")
+```
+
+## Exercise 3: Function Pattern Matching
+
+Define functions using pattern matching:
+
+```elixir
+defmodule StatusHandler do
+  # TODO: Implement handle_response with pattern matching
+  def handle_response({:ok, 200, body}) do
+    {:success, body}
+  end
+
+  def handle_response({:ok, status, _body}) when status >= 400 and status < 500 do
+    {:client_error, status}
+  end
+
+  def handle_response({:ok, status, _body}) when status >= 500 do
+    {:server_error, status}
+  end
+
+  def handle_response({:error, reason}) do
+    {:failed, reason}
+  end
+end
+
+# Test it:
+StatusHandler.handle_response({:ok, 200, "OK"}) |> IO.inspect(label: "200 response")
+StatusHandler.handle_response({:ok, 404, "Not Found"}) |> IO.inspect(label: "404 response")
+StatusHandler.handle_response({:ok, 500, "Error"}) |> IO.inspect(label: "500 response")
+StatusHandler.handle_response({:error, :timeout}) |> IO.inspect(label: "Error response")
+```
+
+## Exercise 4: The Pin Operator
+
+```elixir
+# The pin operator (^) matches against existing values
+expected_status = :healthy
+
+services = [
+  %{name: "api", status: :healthy},
+  %{name: "db", status: :degraded},
+  %{name: "cache", status: :healthy}
+]
+
+# TODO: Filter services matching expected_status using pattern matching
+healthy_services =
+  for %{status: ^expected_status} = service <- services do
+    service.name
+  end
+
+IO.inspect(healthy_services, label: "Healthy services")
+```
+
+## Exercise 5: String Pattern Matching
+
+```elixir
+defmodule LogParser do
+  # TODO: Parse different log levels using pattern matching
+  def parse("ERROR: " <> message), do: {:error, message}
+  def parse("WARN: " <> message), do: {:warn, message}
+  def parse("INFO: " <> message), do: {:info, message}
+  def parse("DEBUG: " <> message), do: {:debug, message}
+  def parse(message), do: {:unknown, message}
+end
+
+# Test it:
+logs = [
+  "ERROR: Connection timeout",
+  "INFO: Server started",
+  "WARN: High memory usage",
+  "DEBUG: Processing request",
+  "Random log line"
+]
+
+parsed =
+  Enum.map(logs, fn log ->
+    LogParser.parse(log)
+  end)
+
+IO.inspect(parsed, label: "Parsed logs")
+```
+
+## Challenge Exercises
+
+### Challenge 1: Port Range Validator
+
+```elixir
+defmodule PortValidator do
+  # TODO: Implement using pattern matching and guards
+  def validate(port) when port < 1, do: {:error, :invalid_port}
+  def validate(port) when port > 65535, do: {:error, :port_too_high}
+  def validate(port) when port < 1024, do: {:warning, :privileged_port, port}
+  def validate(port), do: {:ok, port}
+end
+
+# Test cases:
+test_ports = [0, 80, 443, 8080, 70000]
+
+results =
+  Enum.map(test_ports, fn port ->
+    {port, PortValidator.validate(port)}
+  end)
+
+IO.inspect(results, label: "Port validation results")
+```
+
+### Challenge 2: Deployment Status Machine
+
+```elixir
+defmodule DeploymentStatus do
+  # TODO: Pattern match on deployment states
+  def next_action({:pending, version}), do: {:start_deployment, version}
+  def next_action({:deploying, version, progress}) when progress < 100, do: {:continue, version}
+  def next_action({:deploying, version, 100}), do: {:verify, version}
+  def next_action({:verifying, version}), do: {:complete, version}
+  def next_action({:complete, _version}), do: :done
+  def next_action({:failed, version, reason}), do: {:rollback, version, reason}
+end
+
+# Test the state machine:
+states = [
+  {:pending, "v1.0"},
+  {:deploying, "v1.0", 50},
+  {:deploying, "v1.0", 100},
+  {:verifying, "v1.0"},
+  {:complete, "v1.0"},
+  {:failed, "v1.0", :health_check_failed}
+]
+
+Enum.each(states, fn state ->
+  action = DeploymentStatus.next_action(state)
+  IO.puts("State: #{inspect(state)} -> Action: #{inspect(action)}")
+end)
+```
+
+### Challenge 3: Config Merger
+
+```elixir
+defmodule ConfigMerger do
+  # TODO: Merge configs with pattern matching, handling nested maps
+  def merge(defaults, overrides) do
+    Map.merge(defaults, overrides, fn _key, default, override ->
+      case {default, override} do
+        {%{} = d, %{} = o} -> merge(d, o)
+        {_, o} -> o
+      end
+    end)
+  end
+end
+
+# Test it:
+defaults = %{
+  timeout: 5000,
+  retries: 3,
+  connection: %{
+    pool_size: 10,
+    timeout: 30_000
+  }
+}
+
+overrides = %{
+  timeout: 10_000,
+  connection: %{
+    pool_size: 20
+  }
+}
+
+merged = ConfigMerger.merge(defaults, overrides)
+IO.inspect(merged, label: "Merged config")
+```
+
+## Practice Problems
+
+Solve these on your own:
+
+### Problem 1: Service Health Aggregator
+
+```elixir
+defmodule HealthAggregator do
+  # Given a list of service health checks, calculate overall status
+  # Rules:
+  # - If any service is :critical -> overall is :critical
+  # - If any service is :degraded and none critical -> overall is :degraded
+  # - If all services are :healthy -> overall is :healthy
+
+  def aggregate_status(services) do
+    # TODO: Implement using pattern matching
+    cond do
+      Enum.any?(services, fn {_, status} -> status == :critical end) ->
+        :critical
+
+      Enum.any?(services, fn {_, status} -> status == :degraded end) ->
+        :degraded
+
+      Enum.all?(services, fn {_, status} -> status == :healthy end) ->
+        :healthy
+
+      true ->
+        :unknown
+    end
+  end
+end
+
+# Test:
+services = [
+  {"api", :healthy},
+  {"db", :degraded},
+  {"cache", :healthy}
+]
+
+HealthAggregator.aggregate_status(services) |> IO.inspect(label: "Overall status")
+```
+
+### Problem 2: Log Entry Parser
+
+```elixir
+defmodule LogEntry do
+  # Parse log entries in format: "TIMESTAMP LEVEL SERVICE: MESSAGE"
+  # Return: %{timestamp: ..., level: ..., service: ..., message: ...}
+
+  def parse(log_line) do
+    case String.split(log_line, " ", parts: 4) do
+      [timestamp, level, service_with_colon, message] ->
+        service = String.trim_trailing(service_with_colon, ":")
+
+        %{
+          timestamp: timestamp,
+          level: level,
+          service: service,
+          message: message
+        }
+
+      _ ->
+        nil
+    end
+  end
+end
+
+# Test:
+log_lines = [
+  "2024-11-01T10:30:00 ERROR api: Connection failed",
+  "2024-11-01T10:30:05 INFO web: Request processed",
+  "2024-11-01T10:30:10 WARN db: Slow query detected"
+]
+
+parsed_logs = Enum.map(log_lines, &LogEntry.parse/1)
+IO.inspect(parsed_logs, label: "Parsed log entries")
+```
+
+## Solutions Check
+
+Run this cell to verify your implementations:
+
+```elixir
+defmodule SolutionsCheck do
+  def verify_all do
+    results = [
+      verify_status_handler(),
+      verify_port_validator(),
+      verify_deployment_status(),
+      verify_health_aggregator()
+    ]
+
+    passed = Enum.count(results, & &1)
+    total = length(results)
+
+    IO.puts("\n✓ Passed #{passed}/#{total} tests")
+
+    if passed == total do
+      IO.puts("🎉 Excellent! You've mastered pattern matching!")
+    end
+  end
+
+  defp verify_status_handler do
+    test1 = StatusHandler.handle_response({:ok, 200, "OK"}) == {:success, "OK"}
+    test2 = match?({:client_error, 404}, StatusHandler.handle_response({:ok, 404, "Not Found"}))
+    test3 = match?({:server_error, 500}, StatusHandler.handle_response({:ok, 500, "Error"}))
+
+    result = test1 and test2 and test3
+    IO.puts("StatusHandler: #{if result, do: "✓", else: "✗"}")
+    result
+  end
+
+  defp verify_port_validator do
+    test1 = PortValidator.validate(0) == {:error, :invalid_port}
+    test2 = match?({:warning, :privileged_port, 80}, PortValidator.validate(80))
+    test3 = PortValidator.validate(8080) == {:ok, 8080}
+
+    result = test1 and test2 and test3
+    IO.puts("PortValidator: #{if result, do: "✓", else: "✗"}")
+    result
+  end
+
+  defp verify_deployment_status do
+    test1 = DeploymentStatus.next_action({:pending, "v1.0"}) == {:start_deployment, "v1.0"}
+    test2 = DeploymentStatus.next_action({:complete, "v1.0"}) == :done
+
+    result = test1 and test2
+    IO.puts("DeploymentStatus: #{if result, do: "✓", else: "✗"}")
+    result
+  end
+
+  defp verify_health_aggregator do
+    test1 =
+      HealthAggregator.aggregate_status([
+        {"api", :critical},
+        {"db", :healthy}
+      ]) == :critical
+
+    test2 =
+      HealthAggregator.aggregate_status([
+        {"api", :healthy},
+        {"db", :healthy}
+      ]) == :healthy
+
+    result = test1 and test2
+    IO.puts("HealthAggregator: #{if result, do: "✓", else: "✗"}")
+    result
+  end
+end
+
+SolutionsCheck.verify_all()
+```
+
+## Key Takeaways
+
+- ✓ Pattern matching is assignment + assertion
+- ✓ Use `=` to destructure and extract data
+- ✓ Function clauses provide elegant branching
+- ✓ Guards add conditions to patterns
+- ✓ Pin operator `^` matches existing values
+- ✓ Pattern matching in `for` and `with` is powerful
+
+## Next Steps
+
+Continue with:
+
+1. [Collections & Enumerables](02-collections-exercises.livemd)
+2. [Functions & Modules Practice](03-functions-modules.livemd)
+3. Advanced pattern matching with structs
+
+Great work! 🎉
+
