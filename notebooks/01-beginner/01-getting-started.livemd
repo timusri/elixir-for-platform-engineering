@@ -1,0 +1,462 @@
+# Getting Started with Elixir
+
+```elixir
+Mix.install([])
+```
+
+## Introduction
+
+Welcome to your first Elixir Livebook! This interactive notebook will teach you Elixir basics with hands-on exercises.
+
+## Basic Data Types
+
+### Numbers
+
+```elixir
+# Integers
+42
+```
+
+```elixir
+# Floats
+3.14
+```
+
+```elixir
+# Arithmetic
+10 + 5
+```
+
+```elixir
+# Try it: Calculate how many seconds in a day
+hours = 24
+minutes = 60
+seconds = 60
+
+hours * minutes * seconds
+```
+
+### Strings
+
+```elixir
+"Hello, DevOps Engineer!"
+```
+
+```elixir
+# String concatenation
+"Deploy" <> " to " <> "Production"
+```
+
+```elixir
+# String interpolation
+name = "Kubernetes"
+"Deploying to #{name}"
+```
+
+```elixir
+# Try it: Create a log message with timestamp
+timestamp = "2024-11-01"
+level = "INFO"
+message = "Deployment successful"
+
+"[#{timestamp}] #{level}: #{message}"
+```
+
+## Lists
+
+```elixir
+servers = ["web-1", "web-2", "web-3"]
+```
+
+```elixir
+# Add to front (fast)
+["web-0" | servers]
+```
+
+```elixir
+# Concatenate lists
+servers ++ ["web-4", "web-5"]
+```
+
+## Maps
+
+```elixir
+server = %{
+  name: "web-1",
+  ip: "10.0.0.1",
+  port: 8080,
+  status: :running
+}
+```
+
+```elixir
+# Access values
+server.name
+```
+
+```elixir
+# Update (creates new map)
+%{server | status: :stopped}
+```
+
+```elixir
+# Try it: Create a deployment configuration map
+deployment = %{
+  service: "api",
+  version: "v2.1.0",
+  replicas: 3,
+  environment: "production"
+}
+```
+
+## Pattern Matching
+
+```elixir
+# Match and destructure
+{:ok, result} = {:ok, "Success"}
+result
+```
+
+```elixir
+# Match list head and tail
+[head | tail] = [1, 2, 3, 4, 5]
+IO.inspect(head, label: "Head")
+IO.inspect(tail, label: "Tail")
+```
+
+```elixir
+# Match map fields
+%{name: server_name, port: port} = %{name: "api", port: 8080, ip: "10.0.0.1"}
+IO.puts("Server: #{server_name}, Port: #{port}")
+```
+
+## Functions
+
+### Anonymous Functions
+
+```elixir
+double = fn x -> x * 2 end
+double.(21)
+```
+
+```elixir
+# With capture operator
+double = &(&1 * 2)
+double.(21)
+```
+
+```elixir
+# Try it: Create a function that converts MB to GB
+mb_to_gb = fn mb -> mb / 1024 end
+mb_to_gb.(5120)
+```
+
+### Named Functions (in Modules)
+
+```elixir
+defmodule ServerUtils do
+  def format_url(host, port) do
+    "http://#{host}:#{port}"
+  end
+  
+  def format_uptime(seconds) do
+    hours = div(seconds, 3600)
+    minutes = div(rem(seconds, 3600), 60)
+    "#{hours}h #{minutes}m"
+  end
+  
+  def check_port(port) do
+    cond do
+      port < 1 -> {:error, "Invalid port"}
+      port < 1024 -> {:warning, "Privileged port"}
+      port > 65535 -> {:error, "Port too high"}
+      true -> {:ok, port}
+    end
+  end
+end
+```
+
+```elixir
+ServerUtils.format_url("localhost", 8080)
+```
+
+```elixir
+ServerUtils.format_uptime(7265)
+```
+
+```elixir
+ServerUtils.check_port(8080)
+```
+
+## Enum Module
+
+```elixir
+# Map - transform each element
+Enum.map([1, 2, 3, 4, 5], &(&1 * 2))
+```
+
+```elixir
+# Filter - keep matching elements
+Enum.filter([1, 2, 3, 4, 5], &(rem(&1, 2) == 0))
+```
+
+```elixir
+# Reduce - accumulate a result
+Enum.reduce([1, 2, 3, 4, 5], 0, &(&1 + &2))
+```
+
+```elixir
+# Try it: Given a list of server statuses, count healthy ones
+servers = [
+  %{name: "web-1", status: :healthy},
+  %{name: "web-2", status: :degraded},
+  %{name: "web-3", status: :healthy},
+  %{name: "api-1", status: :unhealthy},
+  %{name: "api-2", status: :healthy}
+]
+
+servers
+|> Enum.filter(&(&1.status == :healthy))
+|> Enum.count()
+```
+
+## Pipe Operator
+
+```elixir
+# Transform data through a pipeline
+"  deploy to kubernetes  "
+|> String.trim()
+|> String.upcase()
+|> String.split(" ")
+|> Enum.join("-")
+```
+
+```elixir
+# Try it: Process a log line
+log_line = "2024-11-01 ERROR: Connection timeout in pod nginx-123"
+
+log_line
+|> String.split(" ", parts: 3)
+|> case do
+  [date, level, message] -> %{date: date, level: level, message: message}
+  _ -> :invalid_format
+end
+```
+
+## Pattern Matching with case
+
+```elixir
+defmodule HealthChecker do
+  def check_status(status_code) do
+    case status_code do
+      200 -> :healthy
+      code when code >= 500 -> :server_error
+      code when code >= 400 -> :client_error
+      _ -> :unknown
+    end
+  end
+end
+```
+
+```elixir
+HealthChecker.check_status(200)
+```
+
+```elixir
+HealthChecker.check_status(500)
+```
+
+```elixir
+# Try it: Categorize deployment status
+defmodule DeploymentStatus do
+  def categorize({:success, version}) do
+    "Successfully deployed #{version}"
+  end
+  
+  def categorize({:in_progress, percentage}) when percentage >= 50 do
+    "Deployment #{percentage}% complete - halfway there!"
+  end
+  
+  def categorize({:in_progress, percentage}) do
+    "Deployment #{percentage}% complete"
+  end
+  
+  def categorize({:failed, reason}) do
+    "Deployment failed: #{reason}"
+  end
+end
+
+DeploymentStatus.categorize({:success, "v2.1.0"})
+```
+
+## Practical DevOps Example
+
+```elixir
+defmodule LogAnalyzer do
+  def parse_log(log_line) do
+    case String.split(log_line, " ", parts: 3) do
+      [timestamp, level, message] ->
+        %{
+          timestamp: timestamp,
+          level: String.trim(level, ":"),
+          message: message
+        }
+      _ ->
+        nil
+    end
+  end
+  
+  def analyze_logs(log_lines) do
+    log_lines
+    |> Enum.map(&parse_log/1)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.group_by(& &1.level)
+    |> Enum.map(fn {level, logs} -> {level, length(logs)} end)
+    |> Map.new()
+  end
+  
+  def find_errors(log_lines) do
+    log_lines
+    |> Enum.map(&parse_log/1)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.filter(&(&1.level == "ERROR"))
+    |> Enum.map(& &1.message)
+  end
+end
+```
+
+```elixir
+logs = [
+  "2024-11-01 INFO: Service started",
+  "2024-11-01 ERROR: Connection failed",
+  "2024-11-01 INFO: Retry attempt 1",
+  "2024-11-01 ERROR: Timeout",
+  "2024-11-01 INFO: Service recovered"
+]
+
+LogAnalyzer.analyze_logs(logs)
+```
+
+```elixir
+LogAnalyzer.find_errors(logs)
+```
+
+## Exercises
+
+### Exercise 1: Server Health Report
+
+Create a function that generates a health report from server data:
+
+```elixir
+defmodule Exercise1 do
+  def health_report(servers) do
+    # TODO: Return a map with counts of healthy, degraded, and unhealthy servers
+    # servers is a list of maps with :name and :status keys
+  end
+end
+
+# Test data
+servers = [
+  %{name: "web-1", status: :healthy},
+  %{name: "web-2", status: :healthy},
+  %{name: "api-1", status: :degraded},
+  %{name: "api-2", status: :unhealthy},
+  %{name: "db-1", status: :healthy}
+]
+
+# Expected output: %{healthy: 3, degraded: 1, unhealthy: 1}
+Exercise1.health_report(servers)
+```
+
+### Exercise 2: Port Range Validator
+
+```elixir
+defmodule Exercise2 do
+  def validate_port_range(ports) do
+    # TODO: Return only valid ports (1024-65535)
+    # Hint: Use Enum.filter
+  end
+end
+
+# Test
+ports = [22, 80, 443, 8080, 70000, 5432, 100]
+# Expected: [8080, 5432]
+Exercise2.validate_port_range(ports)
+```
+
+### Exercise 3: Log Message Formatter
+
+```elixir
+defmodule Exercise3 do
+  def format_log(level, service, message) do
+    # TODO: Return formatted log like: "[ERROR] api: Connection failed"
+    # Hint: Use string interpolation
+  end
+end
+
+# Test
+Exercise3.format_log("ERROR", "api", "Connection failed")
+```
+
+## Solutions
+
+<!-- 
+Run this cell to see solutions after trying the exercises yourself!
+-->
+
+```elixir
+defmodule Solutions do
+  # Exercise 1
+  def health_report(servers) do
+    servers
+    |> Enum.group_by(& &1.status)
+    |> Enum.map(fn {status, list} -> {status, length(list)} end)
+    |> Map.new()
+  end
+
+  # Exercise 2
+  def validate_port_range(ports) do
+    Enum.filter(ports, &(&1 >= 1024 and &1 <= 65535))
+  end
+
+  # Exercise 3
+  def format_log(level, service, message) do
+    "[#{level}] #{service}: #{message}"
+  end
+end
+
+IO.puts("Exercise 1:")
+IO.inspect(Solutions.health_report(servers))
+
+IO.puts("\nExercise 2:")
+IO.inspect(Solutions.validate_port_range(ports))
+
+IO.puts("\nExercise 3:")
+IO.inspect(Solutions.format_log("ERROR", "api", "Connection failed"))
+```
+
+## Next Steps
+
+Congratulations! You've learned:
+
+* ✓ Basic data types (numbers, strings, lists, maps)
+* ✓ Pattern matching
+* ✓ Functions (anonymous and named)
+* ✓ Enum operations
+* ✓ Pipe operator
+* ✓ Case expressions
+
+### Continue Learning
+
+1. Read the full [Beginner Documentation](../docs/01-beginner/)
+2. Try more [Interactive Notebooks](../notebooks/)
+3. Build the [Health Check Aggregator Project](../projects/health_check_aggregator/)
+
+### Resources
+
+* [Elixir Official Docs](https://elixir-lang.org)
+* [Elixir School](https://elixirschool.com)
+* [Exercism Elixir Track](https://exercism.org/tracks/elixir)
+
+Happy coding! 🎉
+
