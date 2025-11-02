@@ -249,7 +249,7 @@ config = Application.get_all_env(:my_app)
 Application.put_env(:my_app, :port, 8080)
 ```
 
-## DevOps Project Example
+## Platform Engineering Project Example
 
 ```elixir
 # mix.exs

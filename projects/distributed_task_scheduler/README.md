@@ -1,6 +1,6 @@
 # Distributed Task Scheduler
 
-A cron-like distributed task scheduler with leader election and fault tolerance. Schedule and execute tasks across a cluster with automatic failover.
+A cron-like distributed task scheduler with leader election and fault tolerance for platform automation. Schedule and execute tasks across a cluster with automatic failover - perfect for multi-region platform operations and scheduled maintenance.
 
 ## 🎯 Learning Objectives
 

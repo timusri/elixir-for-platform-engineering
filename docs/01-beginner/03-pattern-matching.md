@@ -62,7 +62,7 @@ iex> {:ok, data} = {:error, "failed"}
 ** (MatchError) no match of right hand side value: {:error, "failed"}
 ```
 
-**DevOps Example**: API Response Handling
+**Platform Engineering Example**: API Response Handling
 
 ```elixir
 case HTTP.get("https://api.example.com/health") do
@@ -110,7 +110,7 @@ iex> [] = []
 []
 ```
 
-**DevOps Example**: Processing log entries
+**Platform Engineering Example**: Processing log entries
 
 ```elixir
 def process_logs([]), do: :done
@@ -153,7 +153,7 @@ iex> %{port: 443} = %{name: "web-1", port: 80}
 ** (MatchError) no match of right hand side value
 ```
 
-**DevOps Example**: Container metadata
+**Platform Engineering Example**: Container metadata
 
 ```elixir
 container = %{
@@ -194,7 +194,7 @@ iex> ^x = 2
 ** (MatchError) no match of right hand side value: 2
 ```
 
-**DevOps Example**: Validating expected values
+**Platform Engineering Example**: Validating expected values
 
 ```elixir
 expected_version = "1.2.3"
@@ -258,7 +258,7 @@ iex> PortValidator.validate(8080)
 {:ok, 8080}
 ```
 
-**DevOps Example**: Health check classifier
+**Platform Engineering Example**: Health check classifier
 
 ```elixir
 defmodule HealthCheck do
@@ -297,7 +297,7 @@ case expression do
 end
 ```
 
-**DevOps Example**: Processing deployment status
+**Platform Engineering Example**: Processing deployment status
 
 ```elixir
 def handle_deployment_status(status) do
@@ -337,7 +337,7 @@ cond do
 end
 ```
 
-**DevOps Example**: Resource allocation
+**Platform Engineering Example**: Resource allocation
 
 ```elixir
 def allocate_resources(memory_mb) do
@@ -378,7 +378,7 @@ iex> status
 200
 ```
 
-**DevOps Example**: Extracting specific metrics
+**Platform Engineering Example**: Extracting specific metrics
 
 ```elixir
 metrics = [
@@ -412,7 +412,7 @@ iex> message
 "Connection failed"
 ```
 
-**DevOps Example**: Log level extraction
+**Platform Engineering Example**: Log level extraction
 
 ```elixir
 defmodule LogParser do
@@ -450,7 +450,7 @@ iex> replicas
 3
 ```
 
-**DevOps Example**: Kubernetes-style nested config
+**Platform Engineering Example**: Kubernetes-style nested config
 
 ```elixir
 config = %{
@@ -478,7 +478,7 @@ config = %{
 # count = 3
 ```
 
-## Common DevOps Patterns
+## Common Platform Engineering Patterns
 
 ### API Response Handling
 

@@ -142,7 +142,7 @@ restart: :temporary
 restart: :transient
 ```
 
-## DevOps Example: Service Monitor
+## Platform Engineering Example: Service Monitor
 
 ```elixir
 defmodule ServiceMonitor.Application do
@@ -204,7 +204,7 @@ defmodule JobSupervisor do
 end
 ```
 
-**DevOps Example**: Dynamic worker pool
+**Platform Engineering Example**: Dynamic worker pool
 
 ```elixir
 defmodule DeploymentManager do

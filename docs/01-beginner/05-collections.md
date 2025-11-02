@@ -21,7 +21,7 @@ iex> Enum.map([1, 2, 3], &(&1 * 2))
 [2, 4, 6]
 ```
 
-**DevOps Example**: Add environment prefix to service names
+**Platform Engineering Example**: Add environment prefix to service names
 
 ```elixir
 services = ["api", "web", "worker"]
@@ -40,7 +40,7 @@ iex> Enum.filter([1, 2, 3, 4, 5], &(rem(&1, 2) == 0))
 [2, 4]
 ```
 
-**DevOps Example**: Filter healthy services
+**Platform Engineering Example**: Filter healthy services
 
 ```elixir
 services = [
@@ -64,7 +64,7 @@ iex> Enum.reduce([1, 2, 3, 4], 0, &(&1 + &2))
 10
 ```
 
-**DevOps Example**: Calculate total memory usage
+**Platform Engineering Example**: Calculate total memory usage
 
 ```elixir
 containers = [
@@ -89,7 +89,7 @@ worker
 :ok
 ```
 
-**DevOps Example**: Deploy services
+**Platform Engineering Example**: Deploy services
 
 ```elixir
 services = ["api", "web", "worker"]
@@ -115,7 +115,7 @@ iex> Enum.find([1, 2, 3, 4], :not_found, fn x -> x > 10 end)
 :not_found
 ```
 
-**DevOps Example**: Find failed deployment
+**Platform Engineering Example**: Find failed deployment
 
 ```elixir
 deployments = [
@@ -148,7 +148,7 @@ iex> Enum.all?([1, 2, 3], &(&1 > 2))
 false
 ```
 
-**DevOps Example**: Check system health
+**Platform Engineering Example**: Check system health
 
 ```elixir
 services = [
@@ -174,7 +174,7 @@ iex> Enum.sort_by([{:b, 2}, {:a, 1}, {:c, 3}], fn {_key, val} -> val end)
 [{:a, 1}, {:b, 2}, {:c, 3}]
 ```
 
-**DevOps Example**: Sort by memory usage
+**Platform Engineering Example**: Sort by memory usage
 
 ```elixir
 containers = [
@@ -194,7 +194,7 @@ iex> Enum.group_by(["api", "web", "worker"], &String.length/1)
 %{3 => ["api", "web"], 6 => ["worker"]}
 ```
 
-**DevOps Example**: Group services by status
+**Platform Engineering Example**: Group services by status
 
 ```elixir
 services = [
@@ -227,7 +227,7 @@ iex> Enum.chunk_every([1, 2, 3, 4, 5, 6], 2)
 [[1, 2], [3, 4], [5, 6]]
 ```
 
-**DevOps Example**: Batch deployments
+**Platform Engineering Example**: Batch deployments
 
 ```elixir
 services = ["api", "web", "worker", "cache", "db", "queue"]
@@ -249,7 +249,7 @@ iex> Enum.zip([1, 2, 3], [:a, :b, :c])
 [{1, :a}, {2, :b}, {3, :c}]
 ```
 
-**DevOps Example**: Pair services with ports
+**Platform Engineering Example**: Pair services with ports
 
 ```elixir
 services = ["api", "web", "metrics"]
@@ -266,7 +266,7 @@ iex> Enum.flat_map([1, 2, 3], fn x -> [x, x * 2] end)
 [1, 2, 2, 4, 3, 6]
 ```
 
-**DevOps Example**: Expand service replicas
+**Platform Engineering Example**: Expand service replicas
 
 ```elixir
 services = [
@@ -303,7 +303,7 @@ The power of `Enum` comes from chaining:
 |> Enum.take(3)                      # [4, 8, 12]
 ```
 
-**DevOps Example**: Process and analyze logs
+**Platform Engineering Example**: Process and analyze logs
 
 ```elixir
 logs = [
@@ -374,7 +374,7 @@ iex> Map.merge(%{a: 1}, %{b: 2})
 %{a: 1, b: 2}
 ```
 
-**DevOps Example**: Merge configurations
+**Platform Engineering Example**: Merge configurations
 
 ```elixir
 default_config = %{
@@ -411,7 +411,7 @@ iex> for x <- [1, 2], y <- [3, 4], do: {x, y}
 [{1, 3}, {1, 4}, {2, 3}, {2, 4}]
 ```
 
-**DevOps Example**: Generate server matrix
+**Platform Engineering Example**: Generate server matrix
 
 ```elixir
 environments = ["dev", "staging", "prod"]
@@ -430,7 +430,7 @@ iex> for {k, v} <- %{a: 1, b: 2}, into: %{}, do: {k, v * 2}
 %{a: 2, b: 4}
 ```
 
-**DevOps Example**: Transform configuration
+**Platform Engineering Example**: Transform configuration
 
 ```elixir
 config = %{api_timeout: "5000", db_pool: "10", retries: "3"}
@@ -474,7 +474,7 @@ iex> Stream.repeatedly(fn -> :rand.uniform(10) end) |> Enum.take(3)
 [7, 2, 9]
 ```
 
-**DevOps Example**: Log file processing
+**Platform Engineering Example**: Log file processing
 
 ```elixir
 # Process a large log file without loading it all into memory
@@ -501,7 +501,7 @@ File.stream!("/var/log/app.log")
 |> Enum.take(5)              # Only now computes 5 elements
 ```
 
-**DevOps Example**: Process metrics efficiently
+**Platform Engineering Example**: Process metrics efficiently
 
 ```elixir
 defmodule MetricsProcessor do
@@ -551,7 +551,7 @@ iex> Keyword.delete(list, :a)
 [b: 2, a: 3]  # Deletes only first occurrence
 ```
 
-## Real-World DevOps Example
+## Real-World Platform Engineering Example
 
 ```elixir
 defmodule InfrastructureAnalyzer do

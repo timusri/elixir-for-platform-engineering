@@ -90,7 +90,7 @@ def init(args) do
 end
 ```
 
-**DevOps Example**: Health checker initialization
+**Platform Engineering Example**: Health checker initialization
 
 ```elixir
 defmodule HealthChecker do
@@ -144,7 +144,7 @@ end
 - `{:stop, reason, reply, new_state}` - Reply and stop
 - `{:stop, reason, new_state}` - Stop without reply
 
-**DevOps Example**: Configuration server
+**Platform Engineering Example**: Configuration server
 
 ```elixir
 defmodule ConfigServer do
@@ -217,7 +217,7 @@ end
 - `{:noreply, new_state, timeout}` - With timeout
 - `{:stop, reason, new_state}` - Stop server
 
-**DevOps Example**: Metrics collector
+**Platform Engineering Example**: Metrics collector
 
 ```elixir
 defmodule MetricsCollector do
@@ -281,7 +281,7 @@ def handle_info({:DOWN, _ref, :process, _pid, _reason}, state) do
 end
 ```
 
-**DevOps Example**: Periodic health checker
+**Platform Engineering Example**: Periodic health checker
 
 ```elixir
 defmodule PeriodicHealthChecker do
@@ -375,7 +375,7 @@ def terminate(reason, state) do
 end
 ```
 
-**DevOps Example**: Close connections
+**Platform Engineering Example**: Close connections
 
 ```elixir
 defmodule DatabasePool do

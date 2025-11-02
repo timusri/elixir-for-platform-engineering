@@ -6,24 +6,24 @@ Elixir is a dynamic, functional programming language designed for building scala
 
 ## Why Elixir?
 
-### For DevOps Engineers
+### For Platform Engineers
 
-As a DevOps/Platform engineer, you'll find Elixir particularly valuable because:
+As a Platform Engineer building Internal Developer Platforms (IDPs) and self-service infrastructure, you'll find Elixir particularly valuable because:
 
-1. **Concurrency Made Easy**: Handle thousands of concurrent operations without the complexity of threads or locks
-2. **Built-in Fault Tolerance**: Systems that self-heal through supervision trees
-3. **Distributed by Default**: Built-in support for clustering and distributed computing
-4. **Excellent for Infrastructure Tools**: Perfect for building monitoring tools, schedulers, orchestrators
-5. **Low Resource Footprint**: Efficient memory usage and predictable performance
-6. **Hot Code Reloading**: Update code without stopping the system
+1. **Concurrency Made Easy**: Handle thousands of concurrent operations without the complexity of threads or locks - essential for platform APIs and multi-tenant systems
+2. **Built-in Fault Tolerance**: Systems that self-heal through supervision trees - critical for platform reliability
+3. **Distributed by Default**: Built-in support for clustering and distributed computing - perfect for multi-region platform control planes
+4. **Excellent for Infrastructure Tools**: Perfect for building platform APIs, service catalogs, resource controllers, and developer experience tools
+5. **Low Resource Footprint**: Efficient memory usage and predictable performance - optimize platform operational costs
+6. **Hot Code Reloading**: Update platform services without stopping the system - zero-downtime platform operations
 
-### Real-World Use Cases in DevOps
+### Real-World Use Cases in Platform Engineering
 
-- **Discord**: Handles millions of concurrent users with Elixir
-- **Bleacher Report**: Real-time sports updates and notifications
-- **Moz**: SEO tools and data processing pipelines
-- **Pinterest**: Notification delivery system
-- **Heroku**: Routing and log aggregation
+- **Discord**: Handles millions of concurrent users with Elixir - real-time communication platform
+- **Bleacher Report**: Real-time sports updates and notifications - event-driven platform
+- **Moz**: SEO tools and data processing pipelines - data platform infrastructure
+- **Pinterest**: Notification delivery system - high-scale platform services
+- **Heroku**: Routing and log aggregation - PaaS platform infrastructure
 
 ## The BEAM Virtual Machine
 
@@ -65,9 +65,9 @@ list = [1, 2, 3]
 new_list = [4 | list]  # Creates a new list, original unchanged
 ```
 
-**Benefits for DevOps**:
+**Benefits for Platform Engineering**:
 - No race conditions from shared mutable state
-- Easier to reason about concurrent systems
+- Easier to reason about concurrent platform systems
 - Predictable behavior in distributed environments
 
 ### First-Class Functions
@@ -99,7 +99,7 @@ def get_current_status() do
 end
 ```
 
-**DevOps Relevance**: Pure functions are easier to test and reason about.
+**Platform Engineering Relevance**: Pure functions are easier to test and reason about.
 
 ## Your First Elixir Code
 
@@ -112,8 +112,8 @@ $ iex
 Erlang/OTP 26 [erts-14.0] [64-bit] [smp:8:8]
 
 Interactive Elixir (1.15.0) - press Ctrl+C to exit
-iex(1)> "Hello, DevOps!" |> String.upcase()
-"HELLO, DEVOPS!"
+iex(1)> "Hello, Platform!" |> String.upcase()
+"HELLO, PLATFORM!"
 
 iex(2)> 1..10 |> Enum.filter(fn x -> rem(x, 2) == 0 end)
 [2, 4, 6, 8, 10]
@@ -166,7 +166,7 @@ String.upcase(String.trim("  hello  "))
 # => "HELLO"
 ```
 
-**DevOps Example**: Processing log lines
+**Platform Engineering Example**: Processing log lines
 
 ```elixir
 log_line
@@ -186,7 +186,7 @@ log_line
 def greet(name):
     return f"Hello, {name}!"
 
-result = greet("DevOps")
+result = greet("Platform")
 ```
 
 ```elixir
@@ -195,7 +195,7 @@ def greet(name) do
   "Hello, #{name}!"
 end
 
-result = greet("DevOps")
+result = greet("Platform")
 ```
 
 ### Coming from Go
@@ -268,11 +268,11 @@ IEx 1.15.0 (compiled with Erlang/OTP 26)
 4. **Message Passing**: Processes communicate by sending messages
 5. **Fault Tolerance**: "Let it crash" philosophy with supervision
 
-## DevOps Mindset Alignment
+## Platform Engineering Mindset Alignment
 
-As a DevOps engineer, you already think in terms of:
+As a Platform Engineer, you already think in terms of:
 
-| DevOps Concept | Elixir Equivalent |
+| Platform Engineering Concept | Elixir Equivalent |
 |----------------|-------------------|
 | Microservices | Processes |
 | Service Mesh | Process links and monitors |
@@ -310,7 +310,7 @@ Try these in `iex`:
 
 ## What's Next?
 
-Now that you understand what Elixir is and why it's valuable for DevOps, let's dive into:
+Now that you understand what Elixir is and why it's valuable for Platform Engineering, let's dive into:
 - [Basic Syntax & Data Types](02-basic-syntax.md)
 
 ## Additional Resources

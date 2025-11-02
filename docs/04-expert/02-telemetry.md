@@ -42,7 +42,7 @@ end
 )
 ```
 
-## DevOps Monitoring Example
+## Platform Engineering Monitoring Example
 
 ```elixir
 defmodule MyApp.Telemetry do

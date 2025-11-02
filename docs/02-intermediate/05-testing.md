@@ -111,7 +111,7 @@ assert_in_delta 0.1 + 0.2, 0.3, 0.0001
 assert value == expected, "Expected #{expected}, got #{value}"
 ```
 
-## DevOps Testing Example
+## Platform Engineering Testing Example
 
 ```elixir
 defmodule HealthCheckerTest do

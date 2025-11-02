@@ -29,7 +29,7 @@ iex> 0xFF
 iex> 123_456_789_000_000
 123456789000000
 
-# DevOps example: bytes to gigabytes
+# Platform Engineering example: bytes to gigabytes
 iex> bytes = 5_368_709_120
 iex> bytes / 1024 / 1024 / 1024
 5.0
@@ -44,7 +44,7 @@ iex> 3.14
 iex> 1.0e-10
 1.0e-10
 
-# DevOps example: CPU usage percentage
+# Platform Engineering example: CPU usage percentage
 iex> cpu_usage = 87.5
 iex> Float.round(cpu_usage, 2)
 87.5
@@ -77,7 +77,7 @@ iex> true === :true
 true
 ```
 
-**DevOps Usage**: Status codes, tags, configuration keys
+**Platform Engineering Usage**: Status codes, tags, configuration keys
 
 ```elixir
 # Common patterns
@@ -96,8 +96,8 @@ true
 Strings are UTF-8 encoded binaries.
 
 ```elixir
-iex> "Hello, DevOps!"
-"Hello, DevOps!"
+iex> "Hello, Platform!"
+"Hello, Platform!"
 
 # Multi-line strings
 iex> """
@@ -147,7 +147,7 @@ iex> String.replace("http://api", "http", "https")
 "https://api"
 ```
 
-**DevOps Example**: Log parsing
+**Platform Engineering Example**: Log parsing
 
 ```elixir
 log_line = "2024-11-01 ERROR: Connection timeout in pod nginx-123"
@@ -200,7 +200,7 @@ iex> 2 in [1, 2, 3]
 true
 ```
 
-**DevOps Example**: Processing server list
+**Platform Engineering Example**: Processing server list
 
 ```elixir
 servers = ["web-1", "web-2", "web-3"]
@@ -236,7 +236,7 @@ iex> tuple_size({:ok, "data"})
 2
 ```
 
-**DevOps Pattern**: Return tuples for success/error
+**Platform Engineering Pattern**: Return tuples for success/error
 
 ```elixir
 def check_service_health(url) do
@@ -268,7 +268,7 @@ iex> [debug: true, debug: false]
 [debug: true, debug: false]
 ```
 
-**DevOps Usage**: Function options, configuration
+**Platform Engineering Usage**: Function options, configuration
 
 ```elixir
 HTTP.get("https://api.example.com", 
@@ -310,7 +310,7 @@ iex> Map.get(server, :missing, "default")
 "default"
 ```
 
-**DevOps Example**: Infrastructure configuration
+**Platform Engineering Example**: Infrastructure configuration
 
 ```elixir
 cluster = %{
@@ -431,7 +431,7 @@ iex> 5 in 1..10
 true
 ```
 
-**DevOps Example**: Port ranges
+**Platform Engineering Example**: Port ranges
 
 ```elixir
 port_range = 8000..8010
@@ -467,7 +467,7 @@ iex> handle_response.({:ok, "deployed"})
 "Success: deployed"
 ```
 
-**DevOps Example**: Health check handler
+**Platform Engineering Example**: Health check handler
 
 ```elixir
 check_status = fn
@@ -535,7 +535,7 @@ end
 @default_timeout 5000
 ```
 
-## Common Patterns for DevOps
+## Common Patterns for Platform Engineering
 
 ### Status Tuples
 

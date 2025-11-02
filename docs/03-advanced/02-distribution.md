@@ -4,7 +4,7 @@
 
 Elixir inherits Erlang's powerful distributed computing capabilities. You can connect multiple nodes into a cluster and have them work together seamlessly.
 
-## Why Distribution for DevOps?
+## Why Distribution for Platform Engineering?
 
 - **High Availability**: Failover across nodes
 - **Load Distribution**: Spread work across machines
@@ -66,7 +66,7 @@ send(remote_pid, {:message, "data"})
 send({:process_name, :"node2@hostname"}, :message)
 ```
 
-## DevOps Example: Distributed Health Checker
+## Platform Engineering Example: Distributed Health Checker
 
 ```elixir
 defmodule DistributedHealthChecker do
@@ -260,7 +260,7 @@ defmodule DistributedTaskRunner do
 end
 ```
 
-## DevOps Example: Distributed Log Aggregator
+## Platform Engineering Example: Distributed Log Aggregator
 
 ```elixir
 defmodule DistributedLogAggregator do

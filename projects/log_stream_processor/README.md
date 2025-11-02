@@ -1,6 +1,6 @@
 # Log Stream Processor
 
-A production-ready real-time log processing pipeline built with GenStage and Flow. Process logs from multiple sources, apply transformations, and route to various destinations.
+A production-ready real-time log processing pipeline built with GenStage and Flow for platform observability. Process logs from multiple sources, apply transformations, and route to various destinations - essential for platform monitoring and SLO tracking.
 
 ## 🎯 Learning Objectives
 

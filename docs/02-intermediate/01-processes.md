@@ -34,7 +34,7 @@ Hello from process!
 
 The function runs in a new process and returns a Process ID (PID).
 
-**DevOps Example**: Concurrent health checks
+**Platform Engineering Example**: Concurrent health checks
 
 ```elixir
 defmodule HealthChecker do
@@ -129,7 +129,7 @@ Got: hello
 :ok
 ```
 
-**DevOps Example**: Status collector
+**Platform Engineering Example**: Status collector
 
 ```elixir
 defmodule StatusCollector do
@@ -230,7 +230,7 @@ iex> receive do
 Process exited: normal
 ```
 
-**DevOps Example**: Monitor worker processes
+**Platform Engineering Example**: Monitor worker processes
 
 ```elixir
 defmodule WorkerMonitor do
@@ -276,7 +276,7 @@ iex> send(:my_process, :message)
 :message
 ```
 
-**DevOps Example**: Named health checker
+**Platform Engineering Example**: Named health checker
 
 ```elixir
 defmodule HealthChecker do
@@ -348,7 +348,7 @@ after
 end
 ```
 
-**DevOps Example**: Request with timeout
+**Platform Engineering Example**: Request with timeout
 
 ```elixir
 defmodule API do
@@ -382,7 +382,7 @@ iex> Task.await(task)
 2
 ```
 
-**DevOps Example**: Parallel health checks
+**Platform Engineering Example**: Parallel health checks
 
 ```elixir
 defmodule ParallelHealthChecker do

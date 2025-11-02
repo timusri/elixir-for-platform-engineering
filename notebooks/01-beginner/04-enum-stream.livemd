@@ -6,7 +6,7 @@ Mix.install([])
 
 ## Introduction
 
-Master the Enum and Stream modules - the workhorses of Elixir data processing. Perfect for DevOps tasks like log processing, metrics aggregation, and data transformation.
+Master the Enum and Stream modules - the workhorses of Elixir data processing. Perfect for platform engineering tasks like log processing, metrics aggregation, data transformation, and platform observability.
 
 ## Part 1: Enum Basics
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Elixir Learning Repository Setup Script
+# Elixir Learning Repository Setup Script for Platform Engineers
 # This script will help you set up your development environment for learning Elixir
+# with a focus on building Internal Developer Platforms and infrastructure abstractions
 
 set -e  # Exit on error
 
@@ -47,7 +48,7 @@ version_ge() {
     printf '%s\n%s' "$2" "$1" | sort -C -V
 }
 
-print_header "Elixir Learning Environment Setup"
+print_header "Elixir Learning Environment Setup for Platform Engineers"
 
 echo "This script will:"
 echo "  1. Check for Elixir and Erlang installation"

@@ -91,7 +91,7 @@ end)
 |> Enum.to_list()
 ```
 
-### DevOps Example: Log Aggregation
+### Platform Engineering Example: Log Aggregation
 
 ```elixir
 defmodule LogAggregator do

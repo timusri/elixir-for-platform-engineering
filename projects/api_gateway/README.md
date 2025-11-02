@@ -1,6 +1,6 @@
-# API Gateway with Rate Limiting
+# Platform API Gateway with Multi-Tenancy
 
-A production-grade API gateway built with Phoenix featuring per-client rate limiting, circuit breakers, request routing, and comprehensive observability.
+A production-grade platform API gateway built with Phoenix featuring per-tenant rate limiting, circuit breakers, request routing, and comprehensive observability. Essential for platform API management, multi-tenancy, and resource governance.
 
 ## 🎯 Learning Objectives
 
@@ -33,11 +33,11 @@ Client Request
 
 ## 🚀 Features
 
-- ✅ Per-client rate limiting
-- ✅ Circuit breakers for upstream services
-- ✅ Dynamic routing rules
-- ✅ Request/response transformation
-- ✅ Authentication & authorization
+- ✅ Per-tenant rate limiting for resource governance
+- ✅ Circuit breakers for resilient platform services
+- ✅ Dynamic routing rules for platform APIs
+- ✅ Request/response transformation for platform abstractions
+- ✅ Authentication & authorization for multi-tenancy
 - ✅ WebSocket proxy
 - ✅ Prometheus metrics
 - ✅ Request logging and tracing
@@ -222,11 +222,11 @@ Implement service mesh features (mTLS, tracing, retries).
 
 ## 🚀 Next Steps
 
-After completing all projects:
-1. Deploy to production
-2. Build your own DevOps tools
-3. Contribute to open source
-4. Share your learnings
+After completing all platform engineering projects:
+1. Deploy to production as part of your platform
+2. Build your own platform tools and abstractions
+3. Contribute to open source platform projects
+4. Share your platform engineering learnings
 
 ## 📚 Resources
 

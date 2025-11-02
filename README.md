@@ -1,6 +1,6 @@
-# Elixir Learning Guide for DevOps/Platform Engineers
+# Elixir Learning Guide for Platform Engineers
 
-Welcome to your comprehensive journey from Elixir beginner to expert! This guide is specifically tailored for DevOps, SRE, and Platform engineers who want to leverage Elixir's powerful concurrency, fault-tolerance, and distributed systems capabilities.
+Welcome to your comprehensive journey from Elixir beginner to expert! This guide is specifically tailored for Platform Engineers, SREs, and infrastructure teams who want to leverage Elixir's powerful concurrency, fault-tolerance, and distributed systems capabilities to build Internal Developer Platforms (IDPs) and self-service infrastructure.
 
 ## 🚀 Quick Start
 
@@ -11,17 +11,17 @@ Welcome to your comprehensive journey from Elixir beginner to expert! This guide
 
 The setup script will check prerequisites, install dependencies, and get you ready to start learning in minutes! See the [Getting Started](#-getting-started) section below for details.
 
-## 🎯 Why Elixir for DevOps?
+## 🎯 Why Elixir for Platform Engineering?
 
-Elixir, built on the battle-tested Erlang VM (BEAM), offers unique advantages for infrastructure and platform engineering:
+Elixir, built on the battle-tested Erlang VM (BEAM), offers unique advantages for building Internal Developer Platforms (IDPs), self-service infrastructure, and platform abstractions:
 
-- **Massive Concurrency**: Handle thousands to millions of concurrent operations (health checks, log streams, API requests)
-- **Fault Tolerance**: OTP supervision trees provide automatic recovery and self-healing systems
-- **Distributed by Design**: Built-in clustering for multi-node coordination and distributed systems
-- **Low Latency**: Optimized for soft real-time systems with predictable performance
-- **Hot Code Reloading**: Deploy updates without downtime
-- **Built-in Observability**: Excellent tracing, telemetry, and introspection tools
-- **Functional Paradigm**: Write maintainable, testable, and predictable code
+- **Massive Concurrency**: Handle thousands to millions of concurrent operations for platform APIs, control planes, and service mesh data planes
+- **Fault Tolerance**: OTP supervision trees provide automatic recovery and self-healing for critical platform services
+- **Distributed by Design**: Built-in clustering for multi-tenant platform operations and distributed control planes
+- **Low Latency**: Optimized for soft real-time systems with predictable performance for platform APIs and developer experiences
+- **Hot Code Reloading**: Deploy platform updates without downtime or service interruption
+- **Built-in Observability**: Excellent tracing, telemetry, and introspection tools for platform monitoring and SLOs
+- **Functional Paradigm**: Write maintainable, testable, and predictable platform services
 
 ## 📚 Learning Path Structure
 
@@ -34,7 +34,7 @@ Comprehensive documentation covering Elixir fundamentals through expert-level to
 Hands-on exercises with immediate feedback using Livebook's interactive environment.
 
 ### Phase 3: Real-World Projects (Mix Applications)
-Complete DevOps-focused projects with exercises and comprehensive test suites.
+Complete platform engineering projects with exercises and comprehensive test suites.
 
 ## 🗺️ Curriculum Overview
 
@@ -73,19 +73,20 @@ Complete DevOps-focused projects with exercises and comprehensive test suites.
 - [Releases & Deployment](docs/04-expert/03-releases.md)
 - [Advanced Concurrency Patterns](docs/04-expert/04-concurrency-patterns.md)
 
-## 🛠️ DevOps Applications
+## 🛠️ Platform Engineering Applications
 
-Learn how Elixir excels in infrastructure and platform engineering:
+Learn how Elixir excels in building Internal Developer Platforms and infrastructure abstractions:
 
-**[DevOps Use Cases & Applications](docs/devops-applications.md)**
+**[Platform Engineering Use Cases & Applications](docs/platform-engineering-applications.md)**
 
 Key areas covered:
-- Control Plane & Orchestration Tools
-- Monitoring & Observability Systems
-- API Gateways & Proxies
-- CI/CD & Automation
-- Infrastructure as Code Tooling
-- Distributed Systems & Coordination
+- Internal Developer Platforms (IDPs) & Self-Service Infrastructure
+- Platform Control Planes & Service Catalogs
+- Developer Experience Tools & Golden Paths
+- Platform Observability & SRE Tooling
+- Service Mesh & Network Abstractions
+- Multi-Tenancy & Resource Governance
+- Platform APIs & Automation
 
 ## 💻 Interactive Notebooks
 
@@ -113,52 +114,52 @@ After reading the documentation, practice with interactive Livebook notebooks:
 
 ## 🚀 Hands-On Projects
 
-Apply your knowledge with five comprehensive DevOps-focused projects:
+Apply your knowledge with five comprehensive platform engineering projects:
 
 ### 1. Health Check Aggregator (Intermediate)
 **Location**: `projects/health_check_aggregator/`
 
-Build a fault-tolerant service that monitors multiple endpoints concurrently.
+Build a fault-tolerant platform service that monitors multiple endpoints concurrently, essential for platform health dashboards and service catalogs.
 - Multiple concurrent health checkers using GenServers
 - Supervision tree for automatic recovery
-- HTTP API for status queries
-- Prometheus-compatible metrics export
+- Platform API for status queries and service discovery
+- Prometheus-compatible metrics export for platform observability
 
 ### 2. Log Stream Processor (Advanced)
 **Location**: `projects/log_stream_processor/`
 
-Create a real-time log processing pipeline with filtering and aggregation.
-- GenStage-based streaming architecture
-- Pattern matching for log parsing
-- Time-window aggregations
-- Multiple output sinks
+Create a real-time log processing pipeline for platform observability with filtering and aggregation.
+- GenStage-based streaming architecture for platform logs
+- Pattern matching for log parsing and enrichment
+- Time-window aggregations for platform metrics
+- Multiple output sinks for centralized logging
 
 ### 3. Distributed Task Scheduler (Advanced)
 **Location**: `projects/distributed_task_scheduler/`
 
-Build a cron-like distributed scheduler with leader election.
-- Distributed Erlang clustering
-- Leader election with libcluster
-- Task definition and scheduling
-- Automatic failover
+Build a cron-like distributed scheduler for platform automation tasks with leader election.
+- Distributed Erlang clustering for multi-region platforms
+- Leader election with libcluster for high availability
+- Task definition and scheduling for platform operations
+- Automatic failover for resilient platform automation
 
 ### 4. Infrastructure State Reconciler (Expert)
 **Location**: `projects/infrastructure_reconciler/`
 
-Create a Kubernetes-style reconciliation loop for maintaining desired state.
-- Declarative state definitions
+Create a Kubernetes-style reconciliation loop for maintaining desired platform state, essential for self-service infrastructure.
+- Declarative state definitions for platform resources
 - Current state detection (mock cloud APIs)
-- Diff calculation and reconciliation
-- Rate limiting and exponential backoff
+- Diff calculation and reconciliation for platform consistency
+- Rate limiting and exponential backoff for resource governance
 
 ### 5. API Gateway with Rate Limiting (Expert)
 **Location**: `projects/api_gateway/`
 
-Build a production-ready API gateway with advanced features.
-- Phoenix-based HTTP server
-- Per-client rate limiting with ETS
-- Circuit breaker pattern
-- Comprehensive telemetry integration
+Build a production-ready platform API gateway with multi-tenancy and advanced features.
+- Phoenix-based HTTP server for platform APIs
+- Per-tenant rate limiting with ETS for resource governance
+- Circuit breaker pattern for resilient platform services
+- Comprehensive telemetry integration for platform observability
 
 ## 🏁 Getting Started
 
@@ -293,9 +294,9 @@ iex -S mix
 
 Once you've mastered this guide:
 
-1. **Contribute to Open Source**: Find Elixir projects on GitHub
-2. **Build Your Own Tools**: Create DevOps tools for your organization
-3. **Learn Phoenix**: Web framework built on Elixir (great for dashboards, APIs)
+1. **Contribute to Open Source**: Find Elixir platform engineering projects on GitHub
+2. **Build Your Own Platform Tools**: Create platform services and abstractions for your organization
+3. **Learn Phoenix**: Web framework built on Elixir (great for platform dashboards, APIs)
 4. **Explore Nerves**: For IoT and embedded systems
 5. **Study Erlang**: Deepen your understanding of the BEAM VM
 

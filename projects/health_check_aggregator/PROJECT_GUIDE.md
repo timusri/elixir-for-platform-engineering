@@ -1,6 +1,6 @@
 # Health Check Aggregator
 
-A production-ready service monitoring system built with Elixir and OTP. This project demonstrates concurrent health checking, fault tolerance through supervision, and real-time metrics aggregation.
+A production-ready platform service monitoring system built with Elixir and OTP. This project demonstrates concurrent health checking, fault tolerance through supervision, and real-time metrics aggregation - essential components for platform health dashboards and service catalogs.
 
 ## 🎯 Learning Objectives
 
@@ -322,5 +322,5 @@ After completing this project:
 
 ## 📝 License
 
-This learning project is part of the Elixir for DevOps guide.
+This learning project is part of the Elixir for Platform Engineering guide.
 

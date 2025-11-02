@@ -33,7 +33,7 @@ Agent.get_and_update(agent, fn state ->
 end)
 ```
 
-### DevOps Example: Configuration Cache
+### Platform Engineering Example: Configuration Cache
 
 ```elixir
 defmodule ConfigCache do
@@ -86,7 +86,7 @@ results = urls
 |> Enum.map(&Task.await(&1, 10_000))
 ```
 
-### DevOps Example: Concurrent Deployment Checks
+### Platform Engineering Example: Concurrent Deployment Checks
 
 ```elixir
 defmodule DeploymentChecker do
@@ -184,7 +184,7 @@ defmodule Deployment do
 end
 ```
 
-### DevOps Example: Circuit Breaker
+### Platform Engineering Example: Circuit Breaker
 
 ```elixir
 defmodule CircuitBreaker do
@@ -290,7 +290,7 @@ In-memory database for high-performance lookups.
 :ets.delete(:my_table, "key")
 ```
 
-### DevOps Example: Rate Limiter
+### Platform Engineering Example: Rate Limiter
 
 ```elixir
 defmodule RateLimiter do

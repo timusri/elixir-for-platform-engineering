@@ -117,7 +117,7 @@ defp process([h | t], acc) do
 end
 ```
 
-## DevOps-Specific Optimizations
+## Platform Engineering-Specific Optimizations
 
 ### Concurrent Health Checks
 

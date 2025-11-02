@@ -34,11 +34,11 @@ end
 
 # Usage
 require MyMacros
-MyMacros.say_hello("DevOps")
-# Outputs: Hello, DevOps!
+MyMacros.say_hello("Platform")
+# Outputs: Hello, Platform!
 ```
 
-## DevOps DSL Example: Configuration
+## Platform Engineering DSL Example: Configuration
 
 ```elixir
 defmodule ConfigDSL do

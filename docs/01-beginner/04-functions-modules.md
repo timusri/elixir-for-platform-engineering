@@ -38,7 +38,7 @@ iex> is_even.(4)
 true
 ```
 
-**DevOps Example**: Data transformations
+**Platform Engineering Example**: Data transformations
 
 ```elixir
 servers = ["web-1", "web-2", "web-3"]
@@ -96,7 +96,7 @@ defmodule Math do
 end
 ```
 
-**DevOps Example**: Server utilities
+**Platform Engineering Example**: Server utilities
 
 ```elixir
 defmodule ServerUtils do
@@ -135,7 +135,7 @@ iex> StatusChecker.check({:ok, 500})
 :unhealthy
 ```
 
-**DevOps Example**: Log level handler
+**Platform Engineering Example**: Log level handler
 
 ```elixir
 defmodule Logger do
@@ -204,7 +204,7 @@ iex> HTTP.get("https://api.example.com")  # uses 5000
 iex> HTTP.get("https://api.example.com", 10000)  # uses 10000
 ```
 
-**DevOps Example**: Health checker with defaults
+**Platform Engineering Example**: Health checker with defaults
 
 ```elixir
 defmodule HealthChecker do
@@ -258,7 +258,7 @@ defmodule Sum do
 end
 ```
 
-**DevOps Example**: Recursive log processing
+**Platform Engineering Example**: Recursive log processing
 
 ```elixir
 defmodule LogProcessor do
@@ -323,7 +323,7 @@ defmodule Config do
 end
 ```
 
-**DevOps Example**: Configuration constants
+**Platform Engineering Example**: Configuration constants
 
 ```elixir
 defmodule HealthChecker do
@@ -418,7 +418,7 @@ result = "  hello  "
          |> String.trim()
 ```
 
-**DevOps Example**: Processing deployment data
+**Platform Engineering Example**: Processing deployment data
 
 ```elixir
 defmodule Deployment do
@@ -491,7 +491,7 @@ defmodule HealthChecker do
 end
 ```
 
-## Real-World DevOps Module Example
+## Real-World Platform Engineering Module Example
 
 ```elixir
 defmodule Infrastructure.ServiceMonitor do

@@ -1,6 +1,14 @@
 # HealthCheckAggregator
 
-**TODO: Add description**
+A fault-tolerant platform service monitoring system built with Elixir and OTP. Perfect for platform health dashboards, service catalogs, and platform observability.
+
+## Platform Engineering Value
+
+This project demonstrates key platform engineering patterns:
+- Concurrent monitoring of multiple platform services
+- Fault-tolerant architecture for platform reliability
+- Platform API for service discovery and health status
+- Metrics export for platform observability and SLOs
 
 ## Installation
 

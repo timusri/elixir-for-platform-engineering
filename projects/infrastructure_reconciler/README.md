@@ -1,6 +1,6 @@
 # Infrastructure State Reconciler
 
-A Kubernetes-style reconciliation loop that continuously ensures actual state matches desired state. Perfect for building custom controllers and operators.
+A Kubernetes-style reconciliation loop that continuously ensures actual state matches desired state - the foundation of self-service infrastructure platforms. Perfect for building custom platform controllers, operators, and resource managers that enable declarative infrastructure.
 
 ## 🎯 Learning Objectives
 

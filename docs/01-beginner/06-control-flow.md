@@ -28,7 +28,7 @@ iex> case {1, 2, 3} do
 "Matches, x = 2"
 ```
 
-**DevOps Example**: Handle HTTP responses
+**Platform Engineering Example**: Handle HTTP responses
 
 ```elixir
 defmodule APIClient do
@@ -103,7 +103,7 @@ iex> cond do
 "Good"
 ```
 
-**DevOps Example**: System health classification
+**Platform Engineering Example**: System health classification
 
 ```elixir
 defmodule SystemHealth do
@@ -157,7 +157,7 @@ iex> if 2 + 2 == 4, do: "Math works"
 "Math works"
 ```
 
-**DevOps Example**: Deployment checks
+**Platform Engineering Example**: Deployment checks
 
 ```elixir
 defmodule Deployment do
@@ -204,7 +204,7 @@ defmodule UserValidator do
 end
 ```
 
-**DevOps Example**: Deployment validation
+**Platform Engineering Example**: Deployment validation
 
 ```elixir
 defmodule DeploymentValidator do
@@ -313,7 +313,7 @@ defmodule FileHandler do
 end
 ```
 
-**DevOps Example**: Safe file operations
+**Platform Engineering Example**: Safe file operations
 
 ```elixir
 defmodule ConfigLoader do
@@ -380,7 +380,7 @@ iex> File.read!("missing.txt")
 - `File.read/1`: When you want to handle errors
 - `File.read!/1`: When missing file is a programming error
 
-**DevOps Example**:
+**Platform Engineering Example**:
 
 ```elixir
 # Use ! when file MUST exist (configuration)
@@ -481,7 +481,7 @@ defmodule Worker do
 end
 ```
 
-## Real-World DevOps Example
+## Real-World Platform Engineering Example
 
 ```elixir
 defmodule InfrastructureProvisioner do

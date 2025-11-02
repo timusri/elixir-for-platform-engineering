@@ -39,7 +39,7 @@ hours * minutes * seconds
 ### Strings
 
 ```elixir
-"Hello, DevOps Engineer!"
+"Hello, Platform Engineer!"
 ```
 
 ```elixir
@@ -289,7 +289,7 @@ end
 DeploymentStatus.categorize({:success, "v2.1.0"})
 ```
 
-## Practical DevOps Example
+## Practical Platform Engineering Example
 
 ```elixir
 defmodule LogAnalyzer do
